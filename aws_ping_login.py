@@ -1,5 +1,5 @@
 import argparse
-import os
+import subprocess
 import wx 
 import wx.html2 
 import boto3
@@ -48,11 +48,11 @@ def process_login(args):
         DurationSeconds=session_duration
     )
 
-    os.system('aws configure --profile {0} set aws_access_key_id {1}'.format(args.profile, sts_session['Credentials']['AccessKeyId']))
-    os.system('aws configure --profile {0} set aws_secret_access_key {1}'.format(args.profile, sts_session['Credentials']['SecretAccessKey']))
-    os.system('aws configure --profile {0} set aws_session_token {1}'.format(args.profile, sts_session['Credentials']['SessionToken']))
+    subprocess.run(['aws', 'configure', '--profile', args.profile, 'set', 'aws_access_key_id', sts_session['Credentials']['AccessKeyId']])
+    subprocess.run(['aws', 'configure', '--profile', args.profile, 'set', 'aws_secret_access_key', sts_session['Credentials']['SecretAccessKey']])
+    subprocess.run(['aws', 'configure', '--profile', args.profile, 'set', 'aws_session_token', sts_session['Credentials']['SessionToken']])
     if args.region is not None:
-        os.system('aws configure --profile {0} set region {1}'.format(args.profile, args.region))
+        subprocess.run(['aws', 'configure', '--profile', args.profile, 'set', 'region', args.region])
 
 def main():
 
